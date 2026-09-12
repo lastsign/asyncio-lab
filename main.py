@@ -7,19 +7,21 @@ class Scheduler:
     def __init__(self):
         self.ready = deque()
         self.sleeping = []
+        self.sequence = 0
         self.clock = time.time
 
     def call_soon(self, func):
         self.ready.append(func)
 
     def call_later(self, delay, func):
+        self.sequence += 1
         deadline = time.time() + delay
-        heapq.heappush(self.sleeping, (deadline, func))
+        heapq.heappush(self.sleeping, (deadline, self.sequence, func))
 
     def run(self):
         while self.ready or self.sleeping:
             if not self.ready:
-                deadline, func = heapq.heappop(self.sleeping)
+                deadline, _, func = heapq.heappop(self.sleeping)
                 delta = deadline - time.time()
                 if delta > 0:
                     time.sleep(delta)
