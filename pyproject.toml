@@ -1,0 +1,12 @@
+[project]
+name = "asyncio-lab"
+version = "1.0.0"
+dependencies = [
+    "anyio>=4.15.1",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+    "pytest-asyncio>=1.4.0",
+]
